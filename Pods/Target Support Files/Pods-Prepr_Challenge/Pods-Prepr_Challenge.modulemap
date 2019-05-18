@@ -1,0 +1,6 @@
+framework module Pods_Prepr_Challenge {
+  umbrella header "Pods-Prepr_Challenge-umbrella.h"
+
+  export *
+  module * { export * }
+}

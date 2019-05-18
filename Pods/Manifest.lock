@@ -1,0 +1,37 @@
+PODS:
+  - CoreXLSX (0.4.0):
+    - XMLCoder (~> 0.3.1)
+    - ZIPFoundation (~> 0.9.8)
+  - GoogleMaps (3.0.2):
+    - GoogleMaps/Maps (= 3.0.2)
+  - GoogleMaps/Base (3.0.2)
+  - GoogleMaps/Maps (3.0.2):
+    - GoogleMaps/Base
+  - GooglePlaces (3.0.2):
+    - GoogleMaps/Base (= 3.0.2)
+  - XMLCoder (0.3.1)
+  - ZIPFoundation (0.9.8)
+
+DEPENDENCIES:
+  - CoreXLSX
+  - GoogleMaps
+  - GooglePlaces
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - CoreXLSX
+    - GoogleMaps
+    - GooglePlaces
+    - XMLCoder
+    - ZIPFoundation
+
+SPEC CHECKSUMS:
+  CoreXLSX: f66830376a1dee431eacef84508edd414085b515
+  GoogleMaps: 941cd655e009b4d8e42df19a3d749bc3fccec973
+  GooglePlaces: c086e0055dc5f0177d7c9d65fc77a1734f9a4825
+  XMLCoder: 449e4e90d6c7641ea2445f1b2c791fab72cdb18c
+  ZIPFoundation: b1f07e4409baf1641f3fe5948b2a1c3f5c500cb1
+
+PODFILE CHECKSUM: af1b1bd8694ae65893dd44a84f3ecef75caa4c23
+
+COCOAPODS: 1.6.2
