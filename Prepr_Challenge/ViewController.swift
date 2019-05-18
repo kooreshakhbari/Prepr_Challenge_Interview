@@ -10,13 +10,16 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, GMSMapViewDelegate {
 
 
     
     @IBOutlet weak var select_bttn: UIButton!
     @IBOutlet weak var web: UIButton!
     @IBOutlet var city_bttn: [UIButton]!
+    var markers = [GMSMarker]()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -25,15 +28,20 @@ class ViewController: UIViewController {
         //Initally when app loads up zoom onto the first company in chinal
         let camera = GMSCameraPosition.camera(withLatitude: 31.224671, longitude: 121.480206, zoom: 16.0)
         let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
-       
-        view = mapView
+        mapView.animate(to: camera)
         
-  
+        
+      
+        
+       
+       
+        
         
         //Initally when app loads up if user doesnt choose a country just drop all the pins and when
         //you click on pin you will get address and title of that location
         
         //All the variables have been imported from the excel file
+        
         for i in 0..<lats.count{
             //Get corresponding Lat Lon of location
             let lat = lats[i]
@@ -48,15 +56,17 @@ class ViewController: UIViewController {
             marker.position = CLLocationCoordinate2D(latitude: lat, longitude: lon)
             marker.title = title
             marker.snippet = addr
+            markers.append(marker)
             marker.map = mapView
+            print("HI")
            
         }
-        
+
         //Allow scrolling and zoom gestures for user to move around
         mapView.settings.scrollGestures = true
         mapView.settings.zoomGestures = true
-        
-        self.view = mapView
+        view = mapView
+        mapView.delegate = self
         self.view.addSubview(select_bttn)
         self.view.addSubview(web)
         
@@ -67,11 +77,18 @@ class ViewController: UIViewController {
 
   
     }
+    
+
+    
+   
+    
+    
+    
     //When the select a city button is pressed
     //Reveal the cities
     @IBAction func hand_selection(_ sender: UIButton) {
         city_bttn.forEach{(button) in
-            UIView.animate(withDuration: 0.5, animations: {
+            GMSMapView.animate(withDuration: 0.5, animations: {
                 button.isHidden = !button.isHidden
             })
             
@@ -130,35 +147,59 @@ func city_selector(start: Int, end: Int){
     //Initally when app loads up zoom onto the first company in chinal
     let camera = GMSCameraPosition.camera(withLatitude: lats[start], longitude: lons[start], zoom: 13.0)
     let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+    mapView.animate(to: camera)
+    mapView.delegate = self
+    self.view = mapView
     
-    view = mapView
-    
+
     for i in start...end{
         //Get corresponding Lat Lon of location
         let lat = lats[i]
         let lon = lons[i]
-        
+
         //get Title and address of location
         let title = titles[i]
         let addr = address[i]
-        
+
         //Create a marker and set its parameters
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2D(latitude: lat, longitude: lon)
         marker.title = title
         marker.snippet = addr
+        markers.append(marker)
         marker.map = mapView
-        
+
     }
-    self.view = mapView
+  
     self.view.addSubview(select_bttn)
     self.view.addSubview(web)
-    
+
     city_bttn.forEach{(button) in
         self.view.addSubview(button)
         }
     
     }
+    
+    
+    
+    //Show street view is user taps
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        print("You tapped at \(coordinate.latitude), \(coordinate.longitude)")
+        
+        let panoView = GMSPanoramaView(frame: .zero)
+        self.view = panoView
+        
+        panoView.moveNearCoordinate(CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude))
+        panoView.setAllGesturesEnabled(true)
+        
+
+        
+    }
+  
+    
+    
+    
+
     
 }
 
